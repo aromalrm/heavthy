@@ -42,8 +42,8 @@ export type ProtocolStep = {
 };
 
 export const PERSONA = {
-  name: "Maya Chen",
-  firstName: "Maya",
+  name: "Aromal",
+  firstName: "Aromal",
   age: 38,
   memberSince: "Oct 2025",
 };
