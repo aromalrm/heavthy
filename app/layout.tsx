@@ -3,22 +3,21 @@ import { GeistMono } from "geist/font/mono";
 import { GeistSans } from "geist/font/sans";
 import "./globals.css";
 
-const description =
-  "A personal health platform concept by David Pukha, designed after Helios's product designer exercise. Not affiliated with or endorsed by Helios.";
+const description = "A personal health platform concept by David Pukha.";
 
 export const metadata: Metadata = {
-  title: "Home · Helios",
+  title: { default: "Home · Heavthy", template: "%s · Heavthy" },
   description,
   authors: [{ name: "David Pukha" }],
   robots: { index: false, follow: false },
   openGraph: {
-    title: "Helios, a health platform concept",
+    title: "Heavthy, a health platform concept",
     description,
     type: "website",
   },
   twitter: {
     card: "summary",
-    title: "Helios, a health platform concept",
+    title: "Heavthy, a health platform concept",
     description,
   },
   icons: { icon: "/favicon.ico" },

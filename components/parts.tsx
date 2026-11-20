@@ -58,7 +58,7 @@ export function CloseMark() {
   );
 }
 
-function ToneBlock({
+export function ToneBlock({
   tone,
   size = 14,
 }: {
@@ -174,10 +174,32 @@ export function SetSummary({ markers }: { markers: Marker[] }) {
   );
 }
 
+export function PageHeader({
+  title,
+  meta,
+  children,
+}: {
+  title: string;
+  meta?: React.ReactNode;
+  children?: React.ReactNode;
+}) {
+  return (
+    <header className="mb-6">
+      <div className="flex min-h-10 flex-wrap items-end gap-x-4 gap-y-2">
+        <div className="min-w-0 flex-1">
+          <h1 className="text-[30px] font-light leading-tight tracking-[-0.025em]">{title}</h1>
+          {meta && <div className="mt-3">{meta}</div>}
+        </div>
+      </div>
+      {children}
+    </header>
+  );
+}
+
 export function Facts({
   items,
 }: {
-  items: { label: string; value: string }[];
+  items: { label: string; value: React.ReactNode }[];
 }) {
   return (
     <dl className="flex flex-wrap gap-x-8 gap-y-2">

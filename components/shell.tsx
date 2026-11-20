@@ -319,7 +319,7 @@ function Dock({ onSearch }: { onSearch: () => void }) {
     <header className="grid h-[var(--dock)] shrink-0 grid-cols-[1fr_auto_1fr] items-center px-3 text-white">
       <div className="flex items-center gap-5">
         <Link href="/home" className="pl-2 text-[17px] font-medium tracking-[-0.03em]">
-          helios
+          Heavthy
         </Link>
         <DateMenu />
       </div>

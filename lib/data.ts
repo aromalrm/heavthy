@@ -620,3 +620,9 @@ export const NAV = [
 export function protocolFor(name: string) {
   return PROTOCOL.filter((step) => step.targets.includes(name));
 }
+
+export const HORIZONS = [
+  { key: "week", label: "This week" },
+  { key: "daily", label: "Daily habits" },
+  { key: "retest", label: "At your next test" },
+] as const;

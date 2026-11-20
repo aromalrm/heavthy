@@ -12,6 +12,7 @@ import {
 import { useDraw } from "@/lib/draw";
 import { SUGGESTED, answerFor, latestLabel, type Segment } from "@/lib/answers";
 import { markerKey, sinceFirst, tally, unitOf } from "@/lib/metrics";
+import { panelMarker } from "@/lib/panel";
 import {
   Agent,
   ArrowUpRight,
@@ -64,15 +65,15 @@ type ClientName = (typeof CLIENTS)[number];
 const STEPS: Record<ClientName, string[]> = {
   Claude: [
     "Open Settings, then Connectors.",
-    "Add a custom connector and paste the Helios address.",
+    "Add a custom connector and paste the Heavthy address.",
     "Ask about your results in any chat.",
   ],
   ChatGPT: [
     "Open Settings, then Connectors.",
-    "Create a connector with the Helios address.",
-    "Turn Helios on in a chat and ask.",
+    "Create a connector with the Heavthy address.",
+    "Turn Heavthy on in a chat and ask.",
   ],
-  Cursor: ["Open Settings, then MCP.", "Add a server with the Helios address.", "Ask in the agent panel."],
+  Cursor: ["Open Settings, then MCP.", "Add a server with the Heavthy address.", "Ask in the agent panel."],
 };
 
 const ASSISTANT_KEY = "sp-assistant-v1";
@@ -292,7 +293,7 @@ function AskPreview({ question, about }: { question: string; about?: string | nu
     const timer = window.setTimeout(() => setReady(true), 900);
     return () => window.clearTimeout(timer);
   }, [question]);
-  const prompt = `${question} (Helios results, ${latestLabel()})`;
+  const prompt = `${question} (Heavthy results, ${latestLabel()})`;
   const href =
     assistant.client === "Claude"
       ? `https://claude.ai/new?q=${encodeURIComponent(prompt)}`
@@ -310,7 +311,7 @@ function AskPreview({ question, about }: { question: string; about?: string | nu
                 background: assistant.connected ? "var(--color-optimal)" : "var(--color-faint)",
               }}
             />
-            {assistant.connected ? "Helios connected" : "Preview"}
+            {assistant.connected ? "Heavthy connected" : "Preview"}
           </span>
         </header>
         <div className="flex flex-col gap-4 px-5 py-5">
@@ -320,7 +321,7 @@ function AskPreview({ question, about }: { question: string; about?: string | nu
           <p className="flex flex-wrap items-center gap-2 text-[12px] text-[var(--color-muted)]">
             <span className="flex h-5 items-center gap-1.5 rounded-full border border-[var(--color-line)] px-2">
               {ready ? <Check size={10} /> : <ReadingDots />}
-              {ready ? "Read from Helios" : "Reading from Helios"}
+              {ready ? "Read from Heavthy" : "Reading from Heavthy"}
             </span>
             {ready && (
               <span className="rise">
@@ -387,7 +388,7 @@ function ConnectSection() {
     <section>
       <h2 className="text-[17px] font-light leading-tight tracking-[-0.01em]">Connect your assistant</h2>
       <p className="mt-1 text-[13px] leading-[1.5] text-[var(--color-muted)]">
-        Helios works inside the AI you already use, with your results one question away.
+        Heavthy works inside the AI you already use, with your results one question away.
       </p>
       <div role="tablist" aria-label="Assistant" className="mt-5 flex rounded-full bg-[var(--color-subtle)] p-[3px]">
         {CLIENTS.map((name) => (
@@ -418,12 +419,12 @@ function ConnectSection() {
         ))}
       </ol>
       <div className="mt-5 flex h-10 items-center gap-2 rounded-[var(--radius-inner)] border border-[var(--color-line)] pl-3 pr-1">
-        <code className="min-w-0 flex-1 truncate font-mono text-[12px]">https://mcp.helios.health</code>
+        <code className="min-w-0 flex-1 truncate font-mono text-[12px]">https://mcp.heavthy.health</code>
         <button
           type="button"
           onClick={async () => {
             try {
-              await navigator.clipboard.writeText("https://mcp.helios.health");
+              await navigator.clipboard.writeText("https://mcp.heavthy.health");
               setCopied(true);
               window.setTimeout(() => setCopied(false), 1400);
             } catch {
@@ -510,7 +511,9 @@ export function AskDrawer() {
 export function MarkerDrawer() {
   const { markerParam, close, openAsk } = useInspector();
   const { markers, draw } = useDraw();
-  const marker = markers.find((item) => markerKey(item.name) === markerParam);
+  const marker =
+    markers.find((item) => markerKey(item.name) === markerParam) ??
+    (markerParam ? panelMarker(markerParam) : undefined);
   const [science, setScience] = useState(false);
   const source = FEATURED_BIOMARKERS.find((item) => markerKey(item.name) === markerParam) ?? marker;
   const steps = source ? protocolFor(source.name) : [];

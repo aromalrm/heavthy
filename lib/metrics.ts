@@ -29,6 +29,11 @@ export function unitOf(value: string) {
   return value.replace(/^\s*-?\d+(?:\.\d+)?\s*/, "").trim();
 }
 
+export function deltaOf(history: number[]) {
+  if (history.length < 2) return null;
+  return Math.round(100 * (history[history.length - 1] - history[history.length - 2])) / 100;
+}
+
 function formatValue(value: number, unit: string) {
   const text = Number.isInteger(value)
     ? String(value)

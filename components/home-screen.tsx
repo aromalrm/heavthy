@@ -65,7 +65,13 @@ function summaryLine(items: { m: Marker; p: number }[]) {
   return `${sentence}. Everything else is inside its target.`;
 }
 
-function Spectrum({ onOpen }: { onOpen: (marker: Marker) => void }) {
+export function Spectrum({
+  onOpen,
+  compact = false,
+}: {
+  onOpen: (marker: Marker) => void;
+  compact?: boolean;
+}) {
   const { markers } = useDraw();
   const placed = markers
     .map((marker) => ({
@@ -101,7 +107,9 @@ function Spectrum({ onOpen }: { onOpen: (marker: Marker) => void }) {
   const highTick = tickOf(1, 97);
   const active = hover === null ? null : marks[hover];
   return (
-    <section className="tile-dark relative flex h-full min-h-[320px] flex-col overflow-hidden rounded-[var(--radius-card)] p-6 text-white">
+    <section
+      className={`tile-dark relative flex h-full flex-col overflow-hidden rounded-[var(--radius-card)] p-6 text-white ${compact ? "min-h-[232px]" : "min-h-[320px]"}`}
+    >
       <div className="flex items-start justify-between gap-6">
         <div>
           <p className="text-[13px] text-[var(--dock-muted)]">Biomarkers</p>
@@ -231,7 +239,7 @@ function Spectrum({ onOpen }: { onOpen: (marker: Marker) => void }) {
   );
 }
 
-function BioAge() {
+export function BioAge({ size = "home" }: { size?: "home" | "large" }) {
   const { draw, index } = useDraw();
   const age = PERSONA.age;
   const bio = draw.bioAge;
@@ -240,8 +248,9 @@ function BioAge() {
   const previous = index > 0 ? DRAWS[index - 1] : null;
   const delta = previous ? Math.round((bio - previous.bioAge) * 10) / 10 : null;
   const marker = 50 + (Math.max(-6, Math.min(6, gap)) / 6) * 50;
-  const radius = 88;
-  const squash = 0.66;
+  const large = size === "large";
+  const radius = large ? 150 : 88;
+  const squash = large ? 0.82 : 0.66;
   const lower = 1 + (Math.max(-6, Math.min(6, gap)) / 6) * 0.5;
   const width = 2 * radius + 8;
   const height = 2 * radius * squash * 1.5 + 8;
@@ -253,7 +262,7 @@ function BioAge() {
     <Link
       href="/data?tab=age"
       aria-label={`Biological age ${bio}, ${Math.abs(gap)} years ${younger ? "younger" : "older"} than your calendar age of ${age}`}
-      className="group relative isolate flex h-full min-h-[320px] flex-col overflow-hidden rounded-[var(--radius-card)] p-6 text-white"
+      className={`group relative isolate flex h-full flex-col overflow-hidden rounded-[var(--radius-card)] p-6 text-white ${large ? "min-h-[520px]" : "min-h-[320px]"}`}
       style={{
         background: younger
           ? "radial-gradient(70% 60% at 100% 50%, rgba(52,150,96,0.42) 0%, rgba(52,150,96,0) 70%), radial-gradient(90% 70% at 20% 0%, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0) 60%), #141413"
